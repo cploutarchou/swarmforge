@@ -1,0 +1,24 @@
+http:
+  routers:
+    {{.ServiceName}}:
+      rule: "Host(`{{.Subdomain}}.{{.Domain}}`)"
+      service: "{{.ServiceName}}"
+      entryPoints:
+        - web
+        - websecure
+      middlewares:
+        - redirect-to-https
+      tls:
+        certResolver: letsencrypt
+
+  services:
+    {{.ServiceName}}:
+      loadBalancer:
+        servers:
+          - url: "http://{{.ServiceName}}:{{.Port}}"
+
+  middlewares:
+    redirect-to-https:
+      redirectScheme:
+        scheme: https
+        permanent: true

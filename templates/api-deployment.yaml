@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  {{.ServiceName}}:
+    image: {{.ImageName}}:{{.Version}}
+    deploy:
+      replicas: {{.Replicas}}
+      placement:
+        constraints:
+          - node.labels.role == apps
+      resources:
+        limits:
+          cpus: '{{.CPU}}'
+          memory: {{.Memory}}
+      restart_policy:
+        condition: on-failure
+      {{- if .UseTraefik}}
+      labels:
+        {{- range $key, $value := .Labels}}
+        - "{{$key}}={{$value}}"
+        {{- end}}
+      {{- end}}
+    {{if .Environment}}
+    environment:
+      {{range .Environment}}
+      - {{.}}
+      {{end}}
+    {{end}}
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:{{.Port}}/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    ports:
+      - "{{.Port}}:{{.Port}}"
+    networks:
+      - traefik-public
+      - backend
+
+networks:
+  traefik-public:
+    external: true
+  backend:
+    driver: overlay

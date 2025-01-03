@@ -1,0 +1,61 @@
+# Default configuration for Infrastructure CLI
+
+# Default resource limits for services
+resources:
+  api:
+    cpu: "0.5"
+    memory: "512M"
+  standalone:
+    cpu: "1.0"
+    memory: "1G"
+
+# Default service settings
+service:
+  replicas: 1
+  update_delay: "10s"
+  rollback_delay: "5s"
+  failure_action: "rollback"
+  max_attempts: 3
+
+# Monitoring configuration
+monitoring:
+  prometheus_port: 9090
+  grafana_port: 3000
+  node_exporter_port: 9100
+  cadvisor_port: 8080
+
+# Backup configuration
+backup:
+  retention_days: 7
+  backup_dir: "/var/backups/infra"
+  compression: true
+
+# DNS configuration
+dns:
+  zone_file: "/etc/bind/zones/db.local"
+  nameservers:
+    - "8.8.8.8"
+    - "8.8.4.4"
+
+# Security settings
+security:
+  ssh_port: 22
+  firewall_enabled: true
+  selinux_enabled: true
+  fail2ban_enabled: true
+  allowed_ports:
+    - 80
+    - 443
+    - 2377  # Swarm management
+    - 7946  # Container network discovery
+    - 4789  # Container overlay network
+
+# Docker settings
+docker:
+  registry: "docker.io"
+  swarm_advertise_addr: "eth0"
+  default_network: "overlay"
+  log_driver: "json-file"
+  log_opts:
+    max-size: "100m"
+    max-file: "3"
