@@ -10,10 +10,6 @@ variables:
   CGO_ENABLED: "0"
   GITHUB_REPO: "github.com/cploutarchou/swarmforge"
   GITLAB_REPO: "gitlab.com/cploutarchou/swarmforge"
-  ARTIFACT_DIR: "artifacts"
-
-before_script:
-  - mkdir -p $ARTIFACT_DIR
 
 # Testing stage
 test:
@@ -29,14 +25,13 @@ build:
   stage: build
   image: golang:${GO_VERSION}
   script:
-    - mkdir -p build
     - make build-all
-    - cp build/infra-linux-amd64 $ARTIFACT_DIR/
   artifacts:
-    when: on_success
-    expire_in: 1 week
+    name: "${CI_COMMIT_REF_NAME}-${CI_COMMIT_SHORT_SHA}"
     paths:
-      - $ARTIFACT_DIR/infra-linux-amd64
+      - build/infra-linux-amd64
+    expire_in: 1 week
+    expose_as: 'binary'
 
 # Publish stage for Go package
 publish:
