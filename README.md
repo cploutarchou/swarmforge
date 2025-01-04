@@ -24,6 +24,14 @@ A powerful CLI tool for managing Docker Swarm infrastructure, handling deploymen
   - Multi-domain support
   - Zero-downtime migrations
 
+## Documentation
+
+Comprehensive documentation is available in the [docs](docs/) directory:
+
+- [Getting Started Guide](docs/getting-started.md)
+- [Architecture Overview](docs/architecture.md)
+- [Configuration Guide](docs/configuration.md)
+
 ## Installation
 
 ```bash
@@ -123,10 +131,10 @@ The migration process includes:
 - Service deployments
 - Data persistence
 
-## Security
+## Security Features
 
-- Encrypted credential storage
-- Secure configuration management
+- Access control
+- Secure communication
 - SSL/TLS encryption
 - Role-based access control
 
@@ -140,4 +148,4 @@ The migration process includes:
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

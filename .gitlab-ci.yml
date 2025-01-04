@@ -26,26 +26,36 @@ build:
   stage: build
   image: golang:${GO_VERSION}
   script:
+    - mkdir -p build
     - make build-all
   artifacts:
-    name: "${CI_PROJECT_NAME}-${CI_COMMIT_REF_NAME}"
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage.xml
     paths:
       - build/infra-linux-amd64
     expire_in: 1 week
+  cache:
+    paths:
+      - .cache
 
 # Package stage
 package:
   stage: package
   image: golang:${GO_VERSION}
   script:
+    - mkdir -p build
     - make release
   artifacts:
-    name: "${CI_PROJECT_NAME}-${CI_COMMIT_REF_NAME}-release"
     paths:
       - build/*.tar.gz
     expire_in: 1 week
   only:
     - tags
+  cache:
+    paths:
+      - .cache
 
 # Publish stage for Go package
 publish:
