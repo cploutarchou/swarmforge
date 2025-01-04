@@ -29,14 +29,6 @@ build:
     - mkdir -p build
     - make build-all
     - ls -la build/
-  artifacts:
-    name: "binary-${CI_COMMIT_REF_SLUG}"
-    when: on_success
-    paths:
-      - "build/${BINARY_NAME}"
-    expire_in: 1 week
-    reports:
-      dotenv: build/variables.env
 
 # Publish stage for Go package
 publish:
