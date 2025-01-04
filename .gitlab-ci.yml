@@ -10,6 +10,7 @@ variables:
   CGO_ENABLED: "0"
   GITHUB_REPO: "github.com/cploutarchou/swarmforge"
   GITLAB_REPO: "gitlab.com/cploutarchou/swarmforge"
+  BINARY_NAME: "infra-linux-amd64"
 
 # Testing stage
 test:
@@ -25,13 +26,17 @@ build:
   stage: build
   image: golang:${GO_VERSION}
   script:
+    - mkdir -p build
     - make build-all
+    - ls -la build/
   artifacts:
-    name: "${CI_COMMIT_REF_NAME}-${CI_COMMIT_SHORT_SHA}"
+    name: "binary-${CI_COMMIT_REF_SLUG}"
+    when: on_success
     paths:
-      - build/infra-linux-amd64
+      - "build/${BINARY_NAME}"
     expire_in: 1 week
-    expose_as: 'binary'
+    reports:
+      dotenv: build/variables.env
 
 # Publish stage for Go package
 publish:
