@@ -45,10 +45,7 @@ deps:
 build-linux:
 	CGO_ENABLED=1 GOOS=linux GOARCH=amd64 $(GOBUILD) $(LDFLAGS) -o $(BUILD_DIR)/$(BINARY_NAME)-linux-amd64
 
-build-darwin:
-	CGO_ENABLED=1 GOOS=darwin GOARCH=amd64 $(GOBUILD) $(LDFLAGS) -o $(BUILD_DIR)/$(BINARY_NAME)-darwin-amd64
-
-build-all: build-linux build-darwin
+build-all: build-linux 
 
 # Development
 dev: build
