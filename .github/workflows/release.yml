@@ -4,6 +4,13 @@ on:
   push:
     tags:
       - "v*"
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to release (e.g., v1.0.0)'
+        required: true
+        default: 'v1.0.0'
+
 jobs:
   # the workflow can contain other jobs, such as linting, testing, etc.
   release:
@@ -20,6 +27,13 @@ jobs:
         uses: actions/setup-go@v3
         with:
           go-version: 1.21.x
+
+      # Create tag if manually triggered
+      - name: Create tag if manually triggered
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          git tag ${{ github.event.inputs.version }}
+          git push origin ${{ github.event.inputs.version }}
 
       # run goreleaser
       - name: Run GoReleaser
