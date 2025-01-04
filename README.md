@@ -5,12 +5,14 @@ A powerful CLI tool for managing Docker Swarm infrastructure, handling deploymen
 ## Features
 
 - **Infrastructure Management**
+
   - Swarm initialization and node management
   - Role-based node configuration (Manager, GitLab, Monitor, Apps)
   - Secure credential storage and management
   - Infrastructure migration and upgrades
 
 - **Service Management**
+
   - Automated service deployment
   - Configuration management
   - Service health monitoring
@@ -25,22 +27,25 @@ A powerful CLI tool for managing Docker Swarm infrastructure, handling deploymen
 ## Installation
 
 ```bash
-go install github.com/yourusername/infra-cli@latest
+go install github.com/cploutarchou/swarmforge@latest
 ```
 
 ## Quick Start
 
 1. Initialize a new swarm:
+
 ```bash
 infra swarm init --ip <manager-ip> --role manager
 ```
 
 2. Set up Traefik:
+
 ```bash
 infra setup traefik --ip <manager-ip> --domain example.com --email admin@example.com
 ```
 
 3. Join additional nodes:
+
 ```bash
 infra swarm join --ip <node-ip> --manager-ip <manager-ip> --role <gitlab|monitor|apps>
 ```
@@ -86,6 +91,7 @@ infra migrate traefik \
 ```
 
 The migration process includes:
+
 - Configuration backup
 - SSL certificate preservation
 - Zero-downtime transition
@@ -94,21 +100,25 @@ The migration process includes:
 ## Server Roles
 
 ### Manager Node
+
 - Swarm management
 - Traefik routing
 - SSL certificate management
 
 ### GitLab Node
+
 - GitLab server
 - CI/CD pipelines
 - Repository management
 
 ### Monitor Node
+
 - Prometheus metrics
 - Grafana dashboards
 - Log aggregation
 
 ### Apps Node
+
 - Application workloads
 - Service deployments
 - Data persistence

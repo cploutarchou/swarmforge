@@ -6,7 +6,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/cydevcloud/infra-cli/pkg/utils"
+	"github.com/cploutarchou/swarmforge/pkg/utils"
 )
 
 type TraefikConfig struct {
@@ -125,7 +125,7 @@ func startTraefik(ip, username, password string) error {
 		--mount type=bind,source=/var/run/docker.sock,target=/var/run/docker.sock \
 		--network traefik-public \
 		traefik:v2.10`
-	
+
 	_, err := utils.ExecuteRemoteCommand(ip, username, password, cmd)
 	return err
 }

@@ -4,9 +4,10 @@ import (
 	"fmt"
 	"syscall"
 
-	"github.com/cydevcloud/infra-cli/pkg/auth"
 	"github.com/spf13/cobra"
 	"golang.org/x/term"
+
+	"github.com/cploutarchou/swarmforge/pkg/auth"
 )
 
 var authCmd = &cobra.Command{

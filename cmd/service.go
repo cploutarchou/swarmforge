@@ -3,8 +3,9 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/cydevcloud/infra-cli/pkg/types"
 	"github.com/spf13/cobra"
+
+	"github.com/cploutarchou/swarmforge/pkg/types"
 )
 
 var serviceCmd = &cobra.Command{

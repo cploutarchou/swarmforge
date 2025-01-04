@@ -1,4 +1,4 @@
-module github.com/cydevcloud/infra-cli
+module github.com/cploutarchou/swarmforge
 
 go 1.21
 

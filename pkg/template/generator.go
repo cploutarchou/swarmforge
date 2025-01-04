@@ -3,7 +3,7 @@ package template
 import (
 	"text/template"
 
-	"github.com/cydevcloud/infra-cli/pkg/types"
+	"github.com/cploutarchou/swarmforge/pkg/types"
 )
 
 // Generator handles template generation

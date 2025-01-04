@@ -1,7 +1,7 @@
 package migration
 
 import (
-	"github.com/cydevcloud/infra-cli/pkg/types"
+	"github.com/cploutarchou/swarmforge/pkg/types"
 )
 
 // CreateBackup creates a backup of the current state

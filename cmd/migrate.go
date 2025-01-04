@@ -4,9 +4,10 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/cydevcloud/infra-cli/pkg/migration"
-	"github.com/cydevcloud/infra-cli/pkg/types"
 	"github.com/spf13/cobra"
+
+	"github.com/cploutarchou/swarmforge/pkg/migration"
+	"github.com/cploutarchou/swarmforge/pkg/types"
 )
 
 var migrateCmd = &cobra.Command{

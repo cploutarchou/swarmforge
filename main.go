@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/cydevcloud/infra-cli/cmd"
+	"github.com/cploutarchou/swarmforge/cmd"
 )
 
 func main() {

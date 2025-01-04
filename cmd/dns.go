@@ -4,8 +4,9 @@ import (
 	"fmt"
 	"os/exec"
 
-	"github.com/cydevcloud/infra-cli/pkg/dns"
 	"github.com/spf13/cobra"
+
+	"github.com/cploutarchou/swarmforge/pkg/dns"
 )
 
 var dnsCmd = &cobra.Command{

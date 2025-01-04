@@ -18,9 +18,9 @@ BUILD_TIME=$(shell date +%FT%T%z)
 GIT_COMMIT=$(shell git rev-parse --short HEAD || echo "unknown")
 
 # Linker flags
-LDFLAGS=-ldflags "-X github.com/cydevcloud/infra-cli/cmd.Version=${VERSION} \
-                  -X github.com/cydevcloud/infra-cli/cmd.BuildTime=${BUILD_TIME} \
-                  -X github.com/cydevcloud/infra-cli/cmd.GitCommit=${GIT_COMMIT}"
+LDFLAGS=-ldflags "-X github.com/cploutarchou/swarmforge/cmd.Version=${VERSION} \
+                  -X github.com/cploutarchou/swarmforge/cmd.BuildTime=${BUILD_TIME} \
+                  -X github.com/cploutarchou/swarmforge/cmd.GitCommit=${GIT_COMMIT}"
 
 all: clean deps test build
 
