@@ -11,6 +11,10 @@ variables:
   CGO_ENABLED: "0"
   GITHUB_REPO: "github.com/cploutarchou/swarmforge"
   GITLAB_REPO: "gitlab.com/cploutarchou/swarmforge"
+  ARTIFACT_DIR: "artifacts"
+
+before_script:
+  - mkdir -p $ARTIFACT_DIR
 
 # Testing stage
 test:
@@ -28,17 +32,12 @@ build:
   script:
     - mkdir -p build
     - make build-all
+    - cp build/infra-linux-amd64 $ARTIFACT_DIR/
   artifacts:
-    reports:
-      coverage_report:
-        coverage_format: cobertura
-        path: coverage.xml
-    paths:
-      - build/infra-linux-amd64
+    when: on_success
     expire_in: 1 week
-  cache:
     paths:
-      - .cache
+      - $ARTIFACT_DIR/infra-linux-amd64
 
 # Package stage
 package:
@@ -47,15 +46,16 @@ package:
   script:
     - mkdir -p build
     - make release
+    - cp build/*.tar.gz $ARTIFACT_DIR/
   artifacts:
-    paths:
-      - build/*.tar.gz
+    when: on_success
     expire_in: 1 week
+    paths:
+      - $ARTIFACT_DIR/*.tar.gz
   only:
     - tags
-  cache:
-    paths:
-      - .cache
+  dependencies:
+    - build
 
 # Publish stage for Go package
 publish:
@@ -71,6 +71,7 @@ publish:
       fi
   only:
     - tags
+  dependencies: []
 
 # GitHub sync stage
 github-sync:
@@ -86,6 +87,7 @@ github-sync:
   only:
     - main
     - tags
+  dependencies: []
 
 # GitHub release stage
 github-release:
@@ -112,3 +114,4 @@ github-release:
       fi
   only:
     - tags
+  dependencies: []
