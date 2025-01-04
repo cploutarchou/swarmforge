@@ -1,7 +1,6 @@
 stages:
   - test
   - build
-  - package
   - publish
   - sync
   - release
@@ -38,24 +37,6 @@ build:
     expire_in: 1 week
     paths:
       - $ARTIFACT_DIR/infra-linux-amd64
-
-# Package stage
-package:
-  stage: package
-  image: golang:${GO_VERSION}
-  script:
-    - mkdir -p build
-    - make release
-    - cp build/*.tar.gz $ARTIFACT_DIR/
-  artifacts:
-    when: on_success
-    expire_in: 1 week
-    paths:
-      - $ARTIFACT_DIR/*.tar.gz
-  only:
-    - tags
-  dependencies:
-    - build
 
 # Publish stage for Go package
 publish:
