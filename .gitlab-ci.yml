@@ -1,25 +1,10 @@
 stages:
-  - test
   - build
-  - publish
   - sync
-  - release
 
 variables:
   GO_VERSION: "1.21"
   CGO_ENABLED: "0"
-  GITHUB_REPO: "github.com/cploutarchou/swarmforge"
-  GITLAB_REPO: "gitlab.com/cploutarchou/swarmforge"
-  BINARY_NAME: "infra-linux-amd64"
-
-# Testing stage
-test:
-  stage: test
-  image: golang:${GO_VERSION}
-  script:
-    - go test -v ./...
-    - go vet ./...
-  coverage: '/coverage: \d+.\d+% of statements/'
 
 # Build stage
 build:
@@ -29,22 +14,6 @@ build:
     - mkdir -p build
     - make build-all
     - ls -la build/
-
-# Publish stage for Go package
-publish:
-  stage: publish
-  image: golang:${GO_VERSION}
-  script:
-    - |
-      if [[ "$CI_COMMIT_TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-        echo "Publishing release to Go package registry..."
-        GOPROXY=proxy.golang.org go list -m ${GITHUB_REPO}@${CI_COMMIT_TAG}
-      else
-        echo "Skipping publication - not a release tag"
-      fi
-  only:
-    - tags
-  dependencies: []
 
 # GitHub sync stage
 github-sync:
@@ -59,32 +28,5 @@ github-sync:
     - git push github --tags --force
   only:
     - main
-    - tags
-  dependencies: []
-
-# GitHub release stage
-github-release:
-  stage: release
-  image: registry.gitlab.com/gitlab-org/release-cli:latest
-  script:
-    - |
-      if [[ "$CI_COMMIT_TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-        echo "Creating GitHub release..."
-        apk add --no-cache curl
-        curl -X POST \
-          -H "Authorization: token ${GITHUB_TOKEN}" \
-          -H "Accept: application/vnd.github.v3+json" \
-          https://api.github.com/repos/cploutarchou/swarmforge/releases \
-          -d "{
-            \"tag_name\": \"${CI_COMMIT_TAG}\",
-            \"name\": \"Release ${CI_COMMIT_TAG}\",
-            \"body\": \"$(cat CHANGELOG.md | grep -A 50 "^## ${CI_COMMIT_TAG}" | grep -B 50 "^## " | head -n -1)\",
-            \"draft\": false,
-            \"prerelease\": false
-          }"
-      else
-        echo "Skipping GitHub release - not a release tag"
-      fi
-  only:
     - tags
   dependencies: []
