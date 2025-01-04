@@ -28,8 +28,9 @@ build:
   script:
     - make build-all
   artifacts:
+    name: "${CI_PROJECT_NAME}-${CI_COMMIT_REF_NAME}"
     paths:
-      - build/
+      - build/infra-linux-amd64
     expire_in: 1 week
 
 # Package stage
@@ -37,10 +38,11 @@ package:
   stage: package
   image: golang:${GO_VERSION}
   script:
-    - make package
+    - make release
   artifacts:
+    name: "${CI_PROJECT_NAME}-${CI_COMMIT_REF_NAME}-release"
     paths:
-      - dist/
+      - build/*.tar.gz
     expire_in: 1 week
   only:
     - tags
